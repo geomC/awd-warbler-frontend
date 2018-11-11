@@ -1,5 +1,15 @@
 import axios from 'axios';
 
+export function setTokenHeader(token) {
+    // if token is passed, from now on set autorization header on each request.
+    // if not, delete the header from the request defaults
+    if (token) {
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`
+    } else {
+        delete  axios.defaults.headers.common["Authorization"]
+    }
+}
+
 export function apiCall(method, path, data) {
     return new Promise(function (resolve, reject) {
         return axios[method](path, data)
