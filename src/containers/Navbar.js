@@ -2,9 +2,18 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import Logo from "../images/warbler-logo.png";
+import {logout} from "../store/actions/auth";
 
 class Navbar extends Component{
+
+    logout = e => {
+        e.preventDefault();
+        this.props.logout();
+    };
+
     render() {
+        const {isAuthenticated, user} = this.props.currentUser;
+
         return (
             <nav className="navbar navbar-expand">
                 <div className="container-fluid">
@@ -13,14 +22,28 @@ class Navbar extends Component{
                         <img src={Logo} alt="Warbler Home" />
                     </Link>
                     </div>
-                    <ul className="nav navbar-nav navbar-right ">
-                        <li>
-                            <Link to="/signup">Sign Up</Link>
-                        </li>
-                        <li>
-                            <Link to="/signin">Sign In</Link>
-                        </li>
-                    </ul>
+                    {
+                        isAuthenticated ? (
+                        <ul className="nav navbar-nav navbar-right ">
+                            <li>
+                                <Link to={`/users/${user.id}/messages/new`}>Create a new Message</Link>
+                            </li>
+                            <li>
+                                <a onClick={this.logout}>Log out</a>
+                            </li>
+                        </ul>
+                    ) : (
+                        <ul className="nav navbar-nav navbar-right ">
+                            <li>
+                                <Link to="/signup">Sign Up</Link>
+                            </li>
+                            <li>
+                                <Link to="/signin">Sign In</Link>
+                            </li>
+                        </ul>
+                    )
+                    }
+
                 </div>
 
             </nav>
@@ -34,4 +57,4 @@ const mapStateToProps = state => {
     }
 };
 
-export default connect(mapStateToProps, null)(Navbar);
+export default connect(mapStateToProps, {logout})(Navbar);

@@ -15,7 +15,13 @@ export default class AuthForm extends Component {
     handleSubmit = e => {
         e.preventDefault();
         const authType = this.props.signup ? 'signup' : 'signin';
-        this.props.onAuth(authType, this.state).then(() => console.log('logged in'))
+        this.props.onAuth(authType, this.state).then(() => {
+            // forward to home
+            this.props.history.push('/');
+        }).catch((e) => {
+            console.error(e);
+            return
+        })
     };
 
     handleChange = e => {

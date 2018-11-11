@@ -9,12 +9,20 @@ export function setCurrentUser(user) {
     }
 }
 
+export function logout() {
+    return dispatch => {
+        localStorage.clear(); // remove token
+        dispatch(setCurrentUser({})) // will remove currentUser
+    }
+}
+
+
 export function authUser(type, userData) {
     return dispatch => {
         return new Promise(function (resolve, reject) {
             apiCall('post', `/api/auth/${type}`, userData)
                 .then(({token, ...user}) => {
-                    localStorage.setItem('jwtToken', token);
+                    localStorage.setItem('jwtToken', token); // persist token
                     dispatch(setCurrentUser(user));
                     dispatch(removeError());
                     resolve()
