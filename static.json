@@ -1,0 +1,11 @@
+{
+  "root": "build/",
+  "rotes": {
+    "/**": "index.html"
+  },
+  "proxies": {
+    "/api": {
+      "origin": "https://warbler-server-spic.herokuapp.com"
+    }
+  }
+}
